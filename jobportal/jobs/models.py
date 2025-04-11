@@ -42,3 +42,23 @@ class Company(models.Model):
 
     def _str_(self):
         return self.name
+
+class Job(models.Model):
+    JOB_TYPES = [
+        ('FT', 'Full-time'),
+        ('PT', 'Part-time'),
+        ('CN', 'Contract'),
+        ('IN', 'Internship'),
+    ]
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    location = models.CharField(max_length=100)
+    job_type = models.CharField(max_length=2, choices=JOB_TYPES)
+    posted_date = models.DateTimeField(default=timezone.now)
+    closing_date = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+
+    def _str_(self):
+        return f"{self.title} at {self.company.name}"

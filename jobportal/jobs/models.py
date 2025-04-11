@@ -32,3 +32,13 @@ class JobSeeker(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()
+
+class Company(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    website = models.URLField(blank=True)
+    logo = models.ImageField(upload_to='company_logos/', blank=True)
+
+    def _str_(self):
+        return self.name

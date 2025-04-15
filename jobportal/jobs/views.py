@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Company, JobSeeker, Job, Application
 
 from .forms import (UserRegisterForm)
 
@@ -15,6 +16,13 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, '#', {'form': form})
+
+@login_required
+
+def dashboard(request):
+        return render(request, 'jobs/jobseeker_dashboard.html', {'applications': applications})
+
+
 
 
 

@@ -1,0 +1,61 @@
+{% block title %}Company Dashboard{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Company Dashboard</h1>
+        <a href="{% url 'post_job' %}" class="btn btn-primary">Post New Job</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h4>Your Job Postings</h4>
+        </div>
+        <div class="card-body">
+            {% if jobs %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Posted</th>
+                                <th>Closes</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in jobs %}
+                                <tr>
+                                    <td>{{ job.title }}</td>
+                                    <td>{{ job.get_job_type_display }}</td>
+                                    <td>{{ job.location }}</td>
+                                    <td>{{ job.posted_date|date:"M d, Y" }}</td>
+                                    <td>{{ job.closing_date|date:"M d, Y" }}</td>
+                                    <td>
+                                        {% if job.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Closed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url '#' job.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                                        <a href="{% url '#' job.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">You haven't posted any jobs yet.</div>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+{% endblock %}

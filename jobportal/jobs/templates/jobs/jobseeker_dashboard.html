@@ -26,8 +26,17 @@
                                     <td>{{ application.job.title }}</td>
                                     <td>{{ application.job.company.name }}</td>
                                     <td>{{ application.applied_date|date:"M d, Y" }}</td>
-                                    <td>
-                                                                            </td>
+                                    <td>{% if application.status == 'AP' %}
+                                            <span class="badge bg-info">Applied</span>
+                                        {% elif application.status == 'RV' %}
+                                            <span class="badge bg-primary">Under Review</span>
+                                        {% elif application.status == 'IT' %}
+                                            <span class="badge bg-warning">Interview</span>
+                                        {% elif application.status == 'RJ' %}
+                                            <span class="badge bg-danger">Rejected</span>
+                                        {% elif application.status == 'AC' %}
+                                            <span class="badge bg-success">Accepted</span>
+                                        {% endif %}</td>
                                     <td>
                                         <a href="{% url 'job_detail' application.job.id %}" class="btn btn-sm btn-outline-primary">View Job</a>
                                     </td>

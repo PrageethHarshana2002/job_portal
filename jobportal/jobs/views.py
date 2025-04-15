@@ -18,6 +18,7 @@ def register(request):
     return render(request, '#', {'form': form})
 
 @login_required
+
 def dashboard(request):
         return render(request, 'jobs/jobseeker_dashboard.html', {'applications': applications})
 

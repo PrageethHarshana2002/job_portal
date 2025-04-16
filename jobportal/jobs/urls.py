@@ -4,5 +4,6 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('job/<int:job_id>/', views.job_detail, name='job_detail'),
 
 ]

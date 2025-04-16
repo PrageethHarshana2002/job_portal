@@ -29,6 +29,14 @@ def dashboard(request):
     else:
         pass
 
+@login_required
+def job_detail(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+
+    return render(request, 'jobs/job_detail.html', {
+        'job': job,
+    })
+
 
 
 

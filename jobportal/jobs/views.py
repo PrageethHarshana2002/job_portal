@@ -59,3 +59,29 @@ def post_job(request):
 
     return render(request, 'jobs/post_job.html', {'form': form})
 
+
+@login_required
+def apply_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id, is_active=True)
+
+    if not hasattr(request.user, 'jobseeker'):
+        messages.warning(request, 'Only job seekers can apply for jobs.')
+        return redirect('job_detail', job_id=job_id)
+
+    if Application.objects.filter(job=job, applicant=request.user.jobseeker).exists():
+        messages.warning(request, 'You have already applied for this job.')
+        return redirect('job_detail', job_id=job_id)
+
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.job = job
+            application.applicant = request.user.jobseeker
+            application.save()
+            messages.success(request, 'Application submitted successfully!')
+            return redirect('job_detail', job_id=job_id)
+    else:
+        form = ApplicationForm()
+
+    return render(request, 'jobs/apply_job.html', {'form': form, 'job': job})

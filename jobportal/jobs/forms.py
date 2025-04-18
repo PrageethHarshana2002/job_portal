@@ -20,3 +20,8 @@ class JobForm(forms.ModelForm):
         widgets = {
             'closing_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class ApplicationForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['cover_letter']

@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}
+
+{% block title %}Apply for {{ job.title }}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h4>Apply for {{ job.title }}</h4>
+            <h6 class="text-muted">{{ job.company.name }}</h6>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary mt-3">Submit Application</button>
+                <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary mt-3">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

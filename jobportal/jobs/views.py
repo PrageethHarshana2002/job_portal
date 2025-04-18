@@ -5,6 +5,10 @@ from .models import Company, JobSeeker, Job, Application
 
 from .forms import (UserRegisterForm)
 
+def home(request):
+    jobs = Job.objects.filter(is_active=True).order_by('-posted_date')[:10]
+    return render(request, 'jobs/home.html', {'jobs': jobs})
+
 
 def register(request):
     if request.method == 'POST':

@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Company, JobSeeker, Job, Application
-
-from .forms import (UserRegisterForm)
+from .forms import (UserRegisterForm,JobForm)
 
 def home(request):
     jobs = Job.objects.filter(is_active=True).order_by('-posted_date')[:10]
@@ -42,5 +41,21 @@ def job_detail(request, job_id):
     })
 
 
+@login_required
+def post_job(request):
+    if not hasattr(request.user, 'company'):
+        return redirect('home')
 
+    if request.method == 'POST':
+        form = JobForm(request.POST)
+        if form.is_valid():
+            job = form.save(commit=False)
+            job.company = request.user.company
+            job.save()
+            messages.success(request, 'Job posted successfully!')
+            return redirect('dashboard')
+    else:
+        form = JobForm()
+
+    return render(request, 'jobs/post_job.html', {'form': form})
 

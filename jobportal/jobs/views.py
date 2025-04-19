@@ -85,3 +85,24 @@ def apply_job(request, job_id):
         form = ApplicationForm()
 
     return render(request, 'jobs/apply_job.html', {'form': form, 'job': job})
+
+
+@login_required
+def view_applications(request, job_id):
+    job = get_object_or_404(Job, id=job_id, company=request.user.company)
+    applications = Application.objects.filter(job=job).select_related('applicant__user').order_by('-applied_date')
+
+    if request.method == 'POST':
+        application_id = request.POST.get('application_id')
+        new_status = request.POST.get('status')
+        if application_id and new_status:
+            application = get_object_or_404(Application, id=application_id, job=job)
+            application.status = new_status
+            application.save()
+            messages.success(request, 'Application status updated successfully!')
+            return redirect('view_applications', job_id=job.id)
+
+    return render(request, 'jobs/view_applications.html', {
+        'job': job,
+        'applications': applications
+    })

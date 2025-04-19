@@ -59,3 +59,41 @@
             {% endif %}
         </div>
     </div>
+
+    {% for application in applications %}
+    <!-- Modal for each application -->
+    <div class="modal fade" id="applicationModal{{ application.id }}" tabindex="-1" aria-labelledby="applicationModalLabel{{ application.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applicationModalLabel{{ application.id }}">
+                        Application from {{ application.applicant.user.get_full_name }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <h6>Applicant Information</h6>
+                        <p><strong>Name:</strong> {{ application.applicant.user.get_full_name }}</p>
+                        <p><strong>Email:</strong> {{ application.applicant.user.email }}</p>
+                        <p><strong>Skills:</strong> {{ application.applicant.skills }}</p>
+                        <p><strong>Experience:</strong> {{ application.applicant.experience }}</p>
+                        <a href="{{ application.applicant.resume.url }}" class="btn btn-sm btn-primary" target="_blank">
+                            Download Resume
+                        </a>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6>Cover Letter</h6>
+                        <h5>this is the cover letter of the appier</h5>
+                        <p>{{ application.cover_letter|linebreaks }}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

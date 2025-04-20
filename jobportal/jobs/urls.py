@@ -13,4 +13,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='jobs/login.html'), name='login'),
     path('profile/complete/', views.profile_complete, name='profile_complete'),
+    path('logout/', views.logout_view, name='logout'),
 ]

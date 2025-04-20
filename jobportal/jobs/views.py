@@ -36,9 +36,14 @@ def dashboard(request):
 @login_required
 def job_detail(request, job_id):
     job = get_object_or_404(Job, id=job_id)
+    has_applied = False
+
+    if hasattr(request.user, 'jobseeker'):
+        has_applied = Application.objects.filter(job=job, applicant=request.user.jobseeker).exists()
 
     return render(request, 'jobs/job_detail.html', {
         'job': job,
+        'has_applied': has_applied
     })
 
 
@@ -154,3 +159,4 @@ def profile_complete(request):
 def logout_view(request):
     logout(request)
     return render(request, 'jobs/logout.html')
+

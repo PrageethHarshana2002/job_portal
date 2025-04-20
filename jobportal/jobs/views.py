@@ -106,3 +106,14 @@ def view_applications(request, job_id):
         'job': job,
         'applications': applications
     })
+
+@login_required
+def delete_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id, company=request.user.company)
+
+    if request.method == 'POST':
+        job.delete()
+        messages.success(request, 'Job post deleted successfully!')
+        return redirect('dashboard')
+
+    return render(request, 'jobs/confirm_delete_job.html', {'job': job})

@@ -117,3 +117,34 @@ def delete_job(request, job_id):
         return redirect('dashboard')
 
     return render(request, 'jobs/confirm_delete_job.html', {'job': job})
+
+@login_required
+def profile_complete(request):
+    if hasattr(request.user, 'company') or hasattr(request.user, 'jobseeker'):
+        return redirect('home')
+
+    if request.method == 'POST':
+        if 'company' in request.POST:
+            company_form = CompanyRegisterForm(request.POST, request.FILES)
+            if company_form.is_valid():
+                company = company_form.save(commit=False)
+                company.user = request.user
+                company.save()
+                messages.success(request, 'Company profile completed!')
+                return redirect('home')
+        else:
+            jobseeker_form = JobSeekerRegisterForm(request.POST, request.FILES)
+            if jobseeker_form.is_valid():
+                jobseeker = jobseeker_form.save(commit=False)
+                jobseeker.user = request.user
+                jobseeker.save()
+                messages.success(request, 'Job seeker profile completed!')
+                return redirect('home')
+    else:
+        company_form = CompanyRegisterForm()
+        jobseeker_form = JobSeekerRegisterForm()
+
+    return render(request, 'jobs/profile_complete.html', {
+        'company_form': company_form,
+        'jobseeker_form': jobseeker_form
+    })

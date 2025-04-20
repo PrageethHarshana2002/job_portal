@@ -11,5 +11,6 @@ urlpatterns = [
     path('job/<int:job_id>/applications/', views.view_applications, name='view_applications'),
     path('job/<int:job_id>/delete/', views.delete_job, name='delete_job'),
     path('register/', views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='jobs/login.html'), name='login'),
 
 ]

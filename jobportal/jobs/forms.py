@@ -25,3 +25,14 @@ class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = ['cover_letter']
+
+class CompanyRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['name', 'description', 'website', 'logo']
+
+class JobSeekerRegisterForm(forms.ModelForm):
+    class Meta:
+        model = JobSeeker
+        fields = ['resume', 'skills', 'experience']
+

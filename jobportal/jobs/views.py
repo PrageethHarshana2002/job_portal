@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Company, JobSeeker, Job, Application
-from .forms import (UserRegisterForm,JobForm,ApplicationForm)
+from .forms import (UserRegisterForm, JobForm, ApplicationForm, CompanyRegisterForm, JobSeekerRegisterForm)
+from django.contrib.auth import logout
 
 def home(request):
     jobs = Job.objects.filter(is_active=True).order_by('-posted_date')[:10]
@@ -30,7 +31,7 @@ def dashboard(request):
         applications = Application.objects.filter(applicant=request.user.jobseeker).order_by('-applied_date')
         return render(request, 'jobs/jobseeker_dashboard.html', {'applications': applications})
     else:
-        pass
+        return redirect('home')
 
 @login_required
 def job_detail(request, job_id):
@@ -148,3 +149,8 @@ def profile_complete(request):
         'company_form': company_form,
         'jobseeker_form': jobseeker_form
     })
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return render(request, 'jobs/logout.html')

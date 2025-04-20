@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Company, JobSeeker, Job, Application
-from .forms import (UserRegisterForm,JobForm)
+from .forms import (UserRegisterForm,JobForm,ApplicationForm)
 
 def home(request):
     jobs = Job.objects.filter(is_active=True).order_by('-posted_date')[:10]

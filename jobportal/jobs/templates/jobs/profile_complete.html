@@ -1,0 +1,58 @@
+{% extends 'jobs/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Complete Profile{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Complete Your Profile</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs mb-4" id="profileTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="company-tab" data-bs-toggle="tab" data-bs-target="#company" type="button">I'm an Employer</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="jobseeker-tab" data-bs-toggle="tab" data-bs-target="#jobseeker" type="button">I'm a Job Seeker</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="profileTabContent">
+                        <div class="tab-pane fade show active" id="company" role="tabpanel">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="company" value="1">
+                                {{ company_form|crispy }}
+                                <button type="submit" class="btn btn-primary mt-3">Complete Profile</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="jobseeker" role="tabpanel">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ jobseeker_form|crispy }}
+                                <button type="submit" class="btn btn-primary mt-3">Complete Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        // Initialize tab functionality
+        var tabElms = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        tabElms.forEach(function(tabEl) {
+            tabEl.addEventListener('click', function (event) {
+                event.preventDefault();
+                var tab = new bootstrap.Tab(tabEl);
+                tab.show();
+            });
+        });
+    </script>
+{% endblock %}

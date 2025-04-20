@@ -18,7 +18,7 @@ def register(request):
             return redirect('profile_complete')
     else:
         form = UserRegisterForm()
-    return render(request, '#', {'form': form})
+    return render(request, 'jobs/register.html', {'form': form})
 
 @login_required
 

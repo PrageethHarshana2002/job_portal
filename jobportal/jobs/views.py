@@ -24,10 +24,10 @@ def register(request):
 @login_required
 
 def dashboard(request):
-    if hasattr(request.user, ''):
+    if hasattr(request.user, 'company'):
         jobs = Job.objects.filter(company=request.user.company).order_by('-posted_date')
         return render(request, 'jobs/company_dashboard.html', {'jobs': jobs})
-    elif hasattr(request.user, ''):
+    elif hasattr(request.user, 'jobseeker'):
         applications = Application.objects.filter(applicant=request.user.jobseeker).order_by('-applied_date')
         return render(request, 'jobs/jobseeker_dashboard.html', {'applications': applications})
     else:

@@ -176,3 +176,30 @@ def logout_view(request):
     logout(request)
     return render(request, 'jobs/logout.html')
 
+@login_required
+def edit_application(request, application_id):
+    application = get_object_or_404(Application, id=application_id, applicant=request.user.jobseeker)
+
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST, instance=application)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = ApplicationForm(instance=application)
+
+    return render(request, 'jobs/edit_application.html', {
+        'form': form,
+        'application': application
+    })
+
+
+@login_required
+def delete_application(request, application_id):
+    application = get_object_or_404(Application, id=application_id, applicant=request.user.jobseeker)
+
+    if request.method == 'POST':
+        application.delete()
+        return redirect('dashboard')
+
+    return render(request, 'jobs/confirm_application_delete.html', {'application': application})

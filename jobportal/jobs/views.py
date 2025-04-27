@@ -4,10 +4,26 @@ from django.contrib import messages
 from .models import Company, JobSeeker, Job, Application
 from .forms import (UserRegisterForm, JobForm, ApplicationForm, CompanyRegisterForm, JobSeekerRegisterForm)
 from django.contrib.auth import logout
+from django.db.models import Q
 
 def home(request):
-    jobs = Job.objects.filter(is_active=True).order_by('-posted_date')[:10]
-    return render(request, 'jobs/home.html', {'jobs': jobs})
+    jobs = Job.objects.filter(is_active=True).order_by('-posted_date')
+    search_query = request.GET.get('q')
+    if search_query:
+        jobs = jobs.filter(
+            Q(title__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(company_name_icontains=search_query) |
+            Q(location__icontains=search_query)
+        )
+
+    context = {
+        'jobs': jobs,
+        'total_companies': Company.objects.count(),
+        'total_jobseekers': JobSeeker.objects.count(),
+        'total_jobs': Job.objects.count(),
+    }
+    return render(request, 'jobs/home.html', context)
 
 
 def register(request):

@@ -13,7 +13,7 @@ def home(request):
         jobs = jobs.filter(
             Q(title__icontains=search_query) |
             Q(description__icontains=search_query) |
-            Q(company_name_icontains=search_query) |
+            Q(company__name__icontains=search_query) |
             Q(location__icontains=search_query)
         )
 

@@ -25,6 +25,25 @@
                 <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4">Register</a>
             </div>
             {% endif %}
+            <br>
+            <br>
+            <!-- Job Search Form -->
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form method="GET" action="{% url 'home' %}#job-openings" class="search-form">
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   class="form-control form-control-lg"
+                                   name="q"
+                                   placeholder="Search by job title..."
+                                   value="{{ request.GET.q }}">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>

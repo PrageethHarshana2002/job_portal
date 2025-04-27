@@ -79,4 +79,44 @@
             </div>
         {% endfor %}
     </div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="icon-wrapper mb-3">
+                            <i class="fas fa-building fa-3x text-primary"></i>
+                        </div>
+                        <h2 class="display-4 text-warning" >{{ total_companies }}</h2>
+                        <p class="fs-5">Registered Companies</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="icon-wrapper mb-3">
+                            <i class="fas fa-users fa-3x text-primary"></i>
+                        </div>
+                        <h2 class="display-4 text-warning">{{ total_jobseekers }}</h2>
+                        <p class="fs-5">Active Job Seekers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="icon-wrapper mb-3">
+                            <i class="fas fa-briefcase fa-3x text-primary"></i>
+                        </div>
+                        <h2 class="display-4 text-warning">{{ total_jobs }}</h2>
+                        <p class="fs-5">Job Openings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

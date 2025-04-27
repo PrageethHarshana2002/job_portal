@@ -2,6 +2,34 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
+{% load static %}
+<section class="hero-section py-5 text-center text-white"
+         style="background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),
+                url('{% static 'jobs/images/bg.png' %}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                margin-left: calc(-50vw + 50%);
+                margin-right: calc(-50vw + 50%);
+                width: 100vw;
+                margin-top: -25px;">
+    <div class="container-fluid py-5 px-0">
+        <div class="mx-auto" style="max-width: 1200px; padding: 0 15px;">
+            <h1 class="display-4 fw-bold mb-4">Find Your Dream Job Today</h1>
+            <p class="lead mb-5">Connecting talented professionals with top employers worldwide.</p>
+
+            {% if not user.is_authenticated %}
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4">Register</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
     <h1 class="mb-4">Latest Job Openings</h1>
 
     <div class="row">

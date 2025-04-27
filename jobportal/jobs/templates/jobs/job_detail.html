@@ -7,6 +7,9 @@
             <h1 class="card-title">{{ job.title }}</h1>
             <h4 class="card-subtitle mb-3 text-muted">{{ job.company.name }}</h4>
 
+            <img src="{{ job.company.logo.url }}" alt="{{ job.company.name }} logo"
+                         class="rounded me-4" style="width: 100px; height: 100px; object-fit: contain;">
+
             <div class="mb-3">
                 <span class="badge bg-primary me-2">{{ job.get_job_type_display }}</span>
                 <span class="badge bg-secondary">{{ job.location }}</span>

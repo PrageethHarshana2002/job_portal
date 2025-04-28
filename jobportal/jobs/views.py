@@ -203,3 +203,20 @@ def delete_application(request, application_id):
         return redirect('dashboard')
 
     return render(request, 'jobs/confirm_application_delete.html', {'application': application})
+
+@login_required
+def edit_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id, company=request.user.company)
+
+    if request.method == 'POST':
+        form = JobForm(request.POST, instance=job)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = JobForm(instance=job)
+
+    return render(request, 'jobs/edit_job.html', {
+        'form': form,
+        'job': job
+    })

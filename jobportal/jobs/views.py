@@ -220,3 +220,6 @@ def edit_job(request, job_id):
         'form': form,
         'job': job
     })
+
+def about(request):
+    return render(request, 'jobs/about.html', )

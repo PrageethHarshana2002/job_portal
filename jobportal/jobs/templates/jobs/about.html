@@ -1,0 +1,24 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}About{% endblock %}
+{% block content %}
+
+
+{% load static %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">About Our Job Portal</h2>
+                <p class="lead">We're dedicated to helping job seekers and employers find the perfect match.</p>
+                <p>Our platform offers advanced search capabilities, personalized recommendations, and a streamlined application process to make your job search or hiring process efficient and effective.</p>
+                <p>Whether you're looking for your next career opportunity or seeking top talent, we've got you covered.</p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'jobs/images/img.png' %}" alt="Job search illustration" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

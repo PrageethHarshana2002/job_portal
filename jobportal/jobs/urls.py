@@ -17,4 +17,5 @@ urlpatterns = [
     path('application/edit/<int:application_id>/', views.edit_application, name='edit_application'),
     path('application/delete/<int:application_id>/', views.delete_application, name='delete_application'),
     path('job/edit/<int:job_id>/', views.edit_job, name='edit_job'),
+    path('about/', views.about, name='about'),
 ]

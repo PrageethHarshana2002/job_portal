@@ -246,3 +246,44 @@ def profile(request):
         context['profile'] = request.user.jobseeker
 
     return render(request, 'jobs/profile.html', context)
+
+@login_required
+def edit_company_profile(request):
+    if not hasattr(request.user, 'company'):
+        return redirect('home')
+
+    company = request.user.company
+    if request.method == 'POST':
+        form = CompanyRegisterForm(request.POST, request.FILES, instance=company)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Company profile updated successfully!')
+            return redirect('profile')
+    else:
+        form = CompanyRegisterForm(instance=company)
+
+    return render(request, 'jobs/edit_profile.html', {
+        'form': form,
+        'profile_type': 'company'
+    })
+
+
+@login_required
+def edit_jobseeker_profile(request):
+    if not hasattr(request.user, 'jobseeker'):
+        return redirect('home')
+
+    jobseeker = request.user.jobseeker
+    if request.method == 'POST':
+        form = JobSeekerRegisterForm(request.POST, request.FILES, instance=jobseeker)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Job seeker profile updated successfully!')
+            return redirect('profile')
+    else:
+        form = JobSeekerRegisterForm(instance=jobseeker)
+
+    return render(request, 'jobs/edit_profile.html', {
+        'form': form,
+        'profile_type': 'jobseeker'
+    })

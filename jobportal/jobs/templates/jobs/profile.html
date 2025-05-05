@@ -1,0 +1,131 @@
+{% extends 'jobs/base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body text-center">
+                    {% if profile_type == 'company' and profile.logo %}
+                        <img src="{{ profile.logo.url }}" alt="Company Logo" class="rounded-circle img-fluid" style="width: 150px;">
+                    {% else %}
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px;">
+                            <i class="fas fa-user fa-3x text-primary"></i>
+                        </div>
+                    {% endif %}
+                    <h5 class="my-3">{{ user.username }}</h5>
+                    <p class="text-muted mb-1">
+                        {% if profile_type == 'company' %}
+                            Company
+                        {% elif profile_type == 'jobseeker' %}
+                            Job Seeker
+                        {% else %}
+                            Incomplete Profile
+                        {% endif %}
+                    </p>
+                    <div class="d-flex justify-content-center mb-2">
+                        <a href="{% if profile_type == 'company' %}{% url 'edit_company_profile' %}
+                                {% elif profile_type == 'jobseeker' %}{% url 'edit_jobseeker_profile' %}
+                                {% else %}{% url 'profile_complete' %}{% endif %}"
+                           class="btn btn-primary me-2">
+                            Edit Profile
+                        </a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-primary">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Full Name</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ user.get_full_name|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <hr>
+
+                    {% if profile_type == 'company' %}
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Company Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.name }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Website</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.website|default:"Not provided" }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Description</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.description|default:"Not provided" }}</p>
+                            </div>
+                        </div>
+
+                    {% elif profile_type == 'jobseeker' %}
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Skills</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.skills|default:"Not provided" }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Experience</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.experience|default:"Not provided" }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Resume</p>
+                            </div>
+                            <div class="col-sm-9">
+                                {% if profile.resume %}
+                                    <a href="{{ profile.resume.url }}" class="btn btn-sm btn-outline-primary" target="_blank">View Resume</a>
+                                {% else %}
+                                    <p class="text-muted mb-0">Not provided</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="alert alert-warning">
+                            Your profile is incomplete. Please <a href="{% url 'profile_complete' %}" class="alert-link">complete your profile</a> to access all features.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

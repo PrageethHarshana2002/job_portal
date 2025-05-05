@@ -30,9 +30,23 @@ class CompanyRegisterForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'description', 'website', 'logo']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
+        required = {
+            'website': False,
+            'logo': False,
+        }
 
 class JobSeekerRegisterForm(forms.ModelForm):
     class Meta:
         model = JobSeeker
         fields = ['resume', 'skills', 'experience']
+        widgets = {
+            'skills': forms.Textarea(attrs={'rows': 3}),
+            'experience': forms.Textarea(attrs={'rows': 4}),
+        }
+        required = {
+            'resume': False,
+        }
 

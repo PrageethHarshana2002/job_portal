@@ -5,25 +5,35 @@ from .models import Company, JobSeeker, Job, Application
 from .forms import (UserRegisterForm, JobForm, ApplicationForm, CompanyRegisterForm, JobSeekerRegisterForm)
 from django.contrib.auth import logout
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 def home(request):
-    jobs = Job.objects.filter(is_active=True).order_by('-posted_date')
+    jobs_list = Job.objects.filter(is_active=True).order_by('-posted_date')
+    companies = Company.objects.all()[:12]
+
+    # Handle search query
     search_query = request.GET.get('q')
     if search_query:
-        jobs = jobs.filter(
+        jobs_list = jobs_list.filter(
             Q(title__icontains=search_query) |
             Q(description__icontains=search_query) |
             Q(company__name__icontains=search_query) |
             Q(location__icontains=search_query)
         )
 
-    context = {
+    # Pagination
+    paginator = Paginator(jobs_list, 6)
+    page_number = request.GET.get('page')
+    jobs = paginator.get_page(page_number)
+
+    return render(request, 'jobs/home.html', {
         'jobs': jobs,
+        'companies': companies,
         'total_companies': Company.objects.count(),
         'total_jobseekers': JobSeeker.objects.count(),
-        'total_jobs': Job.objects.count(),
-    }
-    return render(request, 'jobs/home.html', context)
+        'total_jobs': Job.objects.filter(is_active=True).count(),
+    })
+
 
 
 def register(request):
@@ -223,3 +233,57 @@ def edit_job(request, job_id):
 
 def about(request):
     return render(request, 'jobs/about.html', )
+
+@login_required
+def profile(request):
+    context = {}
+
+    if hasattr(request.user, 'company'):
+        context['profile_type'] = 'company'
+        context['profile'] = request.user.company
+    elif hasattr(request.user, 'jobseeker'):
+        context['profile_type'] = 'jobseeker'
+        context['profile'] = request.user.jobseeker
+
+    return render(request, 'jobs/profile.html', context)
+
+@login_required
+def edit_company_profile(request):
+    if not hasattr(request.user, 'company'):
+        return redirect('home')
+
+    company = request.user.company
+    if request.method == 'POST':
+        form = CompanyRegisterForm(request.POST, request.FILES, instance=company)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Company profile updated successfully!')
+            return redirect('profile')
+    else:
+        form = CompanyRegisterForm(instance=company)
+
+    return render(request, 'jobs/edit_profile.html', {
+        'form': form,
+        'profile_type': 'company'
+    })
+
+
+@login_required
+def edit_jobseeker_profile(request):
+    if not hasattr(request.user, 'jobseeker'):
+        return redirect('home')
+
+    jobseeker = request.user.jobseeker
+    if request.method == 'POST':
+        form = JobSeekerRegisterForm(request.POST, request.FILES, instance=jobseeker)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Job seeker profile updated successfully!')
+            return redirect('profile')
+    else:
+        form = JobSeekerRegisterForm(instance=jobseeker)
+
+    return render(request, 'jobs/edit_profile.html', {
+        'form': form,
+        'profile_type': 'jobseeker'
+    })

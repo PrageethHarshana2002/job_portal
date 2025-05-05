@@ -16,14 +16,23 @@
                 margin-top: -25px;">
     <div class="container-fluid py-5 px-0">
         <div class="mx-auto" style="max-width: 1200px; padding: 0 15px;">
-            <h1 class="display-4 fw-bold mb-4">Find Your Dream Job Today</h1>
-            <p class="lead mb-5">Connecting talented professionals with top employers worldwide.</p>
+            <div class="text-center">
+                <h1 class="display-4 fw-bold mb-4 fade-in-up">Find Your Dream Job Today</h1>
+                <p class="lead mb-5 fade-in-up" style="animation-delay: 0.2s; animation-fill-mode: both;">Connecting talented professionals with top employers worldwide.</p>
+            </div>
 
             {% if not user.is_authenticated %}
             <div class="d-flex justify-content-center gap-3">
                 <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
                 <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4">Register</a>
             </div>
+
+            {% else %}
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+
+            </div>
+
             {% endif %}
             <br>
             <br>
@@ -154,6 +163,27 @@
                 </div>
             </div>
         </div>
+        <div class="text-center mt-4">
+    <nav aria-label="Job pagination">
+        <ul class="pagination justify-content-center">
+            {% if jobs.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ jobs.previous_page_number }}#job-openings">Previous</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">{{ jobs.number }}</span>
+            </li>
+
+            {% if jobs.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ jobs.next_page_number }}#job-openings">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
     </div>
 </section>
 
@@ -179,7 +209,7 @@
                                     <i class="fas fa-user text-primary"></i>
                                 </div>
                                 <div>
-                                    <span class="fw-bold d-block">Sarah Johnson</span>
+                                    <span class="fw-bold d-block">Dilani Perera</span>
                                     <small class="text-muted">Marketing Manager</small>
                                 </div>
                             </footer>
@@ -206,7 +236,7 @@
                                     <i class="fas fa-user text-primary"></i>
                                 </div>
                                 <div>
-                                    <span class="fw-bold d-block">Michael Chen</span>
+                                    <span class="fw-bold d-block">Kasun Wijesinghe</span>
                                     <small class="text-muted">Tech Recruiter</small>
                                 </div>
                             </footer>
@@ -233,7 +263,7 @@
                                     <i class="fas fa-user text-primary"></i>
                                 </div>
                                 <div>
-                                    <span class="fw-bold d-block">David Wilson</span>
+                                    <span class="fw-bold d-block">Nadeesha Gunaratne</span>
                                     <small class="text-muted">HR Director</small>
                                 </div>
                             </footer>
@@ -244,4 +274,33 @@
         </div>
     </div>
 </section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Our Trusted Partners</h2>
+        <p class="lead text-center mb-5">We work with top companies across various industries</p>
+
+        <div class="row g-4 justify-content-center align-items-center">
+            {% for company in companies %}
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="d-flex justify-content-center align-items-center p-3 bg-white rounded-3 shadow-sm hover-shadow" style="height: 100px;">
+                        {% if company.logo %}
+                            <img src="{{ company.logo.url }}" alt="{{ company.name }} logo" class="img-fluid" style="max-height: 60px; object-fit: contain;">
+                        {% else %}
+                            <div class="text-center">
+                                <i class="fas fa-building fa-2x text-muted"></i>
+                                <p class="small mb-0 mt-1">{{ company.name }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">No companies to display</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 {% endblock %}

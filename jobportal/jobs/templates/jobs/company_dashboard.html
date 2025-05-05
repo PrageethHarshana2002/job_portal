@@ -22,6 +22,7 @@
                                 <th>Location</th>
                                 <th>Posted</th>
                                 <th>Closes</th>
+                                <th>Applications</th>
                                 <th>Status</th>
                                 <th>Actions</th>
 
@@ -35,6 +36,13 @@
                                     <td>{{ job.location }}</td>
                                     <td>{{ job.posted_date|date:"M d, Y" }}</td>
                                     <td>{{ job.closing_date|date:"M d, Y" }}</td>
+                                    <td>
+                                        <a href="{% url 'view_applications' job.id %}" class="text-decoration-none">
+                                            <span class="badge bg-primary rounded-pill text-decoration-underline">
+                                                {{ job.application_set.count }}
+                                            </span>
+                                        </a>
+                                    </td>
                                     <td>
                                         {% if job.is_active %}
                                             <span class="badge bg-success">Active</span>

@@ -233,3 +233,16 @@ def edit_job(request, job_id):
 
 def about(request):
     return render(request, 'jobs/about.html', )
+
+@login_required
+def profile(request):
+    context = {}
+
+    if hasattr(request.user, 'company'):
+        context['profile_type'] = 'company'
+        context['profile'] = request.user.company
+    elif hasattr(request.user, 'jobseeker'):
+        context['profile_type'] = 'jobseeker'
+        context['profile'] = request.user.jobseeker
+
+    return render(request, 'jobs/profile.html', context)

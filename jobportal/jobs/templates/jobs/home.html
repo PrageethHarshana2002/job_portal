@@ -275,4 +275,32 @@
     </div>
 </section>
 
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Our Trusted Partners</h2>
+        <p class="lead text-center mb-5">We work with top companies across various industries</p>
+
+        <div class="row g-4 justify-content-center align-items-center">
+            {% for company in companies %}
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="d-flex justify-content-center align-items-center p-3 bg-white rounded-3 shadow-sm hover-shadow" style="height: 100px;">
+                        {% if company.logo %}
+                            <img src="{{ company.logo.url }}" alt="{{ company.name }} logo" class="img-fluid" style="max-height: 60px; object-fit: contain;">
+                        {% else %}
+                            <div class="text-center">
+                                <i class="fas fa-building fa-2x text-muted"></i>
+                                <p class="small mb-0 mt-1">{{ company.name }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">No companies to display</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 {% endblock %}

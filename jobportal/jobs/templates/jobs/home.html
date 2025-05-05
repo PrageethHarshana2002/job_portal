@@ -16,14 +16,23 @@
                 margin-top: -25px;">
     <div class="container-fluid py-5 px-0">
         <div class="mx-auto" style="max-width: 1200px; padding: 0 15px;">
-            <h1 class="display-4 fw-bold mb-4">Find Your Dream Job Today</h1>
-            <p class="lead mb-5">Connecting talented professionals with top employers worldwide.</p>
+            <div class="text-center">
+                <h1 class="display-4 fw-bold mb-4 fade-in-up">Find Your Dream Job Today</h1>
+                <p class="lead mb-5 fade-in-up" style="animation-delay: 0.2s; animation-fill-mode: both;">Connecting talented professionals with top employers worldwide.</p>
+            </div>
 
             {% if not user.is_authenticated %}
             <div class="d-flex justify-content-center gap-3">
                 <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
                 <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4">Register</a>
             </div>
+
+            {% else %}
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+
+            </div>
+
             {% endif %}
             <br>
             <br>

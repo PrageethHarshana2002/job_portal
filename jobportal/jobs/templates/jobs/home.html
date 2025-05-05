@@ -154,6 +154,27 @@
                 </div>
             </div>
         </div>
+        <div class="text-center mt-4">
+    <nav aria-label="Job pagination">
+        <ul class="pagination justify-content-center">
+            {% if jobs.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ jobs.previous_page_number }}#job-openings">Previous</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">{{ jobs.number }}</span>
+            </li>
+
+            {% if jobs.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ jobs.next_page_number }}#job-openings">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
     </div>
 </section>
 

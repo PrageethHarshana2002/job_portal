@@ -5,25 +5,35 @@ from .models import Company, JobSeeker, Job, Application
 from .forms import (UserRegisterForm, JobForm, ApplicationForm, CompanyRegisterForm, JobSeekerRegisterForm)
 from django.contrib.auth import logout
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 def home(request):
-    jobs = Job.objects.filter(is_active=True).order_by('-posted_date')
+    jobs_list = Job.objects.filter(is_active=True).order_by('-posted_date')
+    companies = Company.objects.all()[:12]
+
+    # Handle search query
     search_query = request.GET.get('q')
     if search_query:
-        jobs = jobs.filter(
+        jobs_list = jobs_list.filter(
             Q(title__icontains=search_query) |
             Q(description__icontains=search_query) |
             Q(company__name__icontains=search_query) |
             Q(location__icontains=search_query)
         )
 
-    context = {
+    # Pagination
+    paginator = Paginator(jobs_list, 6)
+    page_number = request.GET.get('page')
+    jobs = paginator.get_page(page_number)
+
+    return render(request, 'jobs/home.html', {
         'jobs': jobs,
+        'companies': companies,
         'total_companies': Company.objects.count(),
         'total_jobseekers': JobSeeker.objects.count(),
-        'total_jobs': Job.objects.count(),
-    }
-    return render(request, 'jobs/home.html', context)
+        'total_jobs': Job.objects.filter(is_active=True).count(),
+    })
+
 
 
 def register(request):
